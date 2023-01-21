@@ -1,25 +1,19 @@
-import React from 'react'
-import { getCookie, deleteCookie } from 'cookies-next'
+import React from 'react';
 import { useEffect } from 'react';
-import Router, { useRouter  } from 'next/router';
+import { useRouter } from 'next/router';
+import { useLogout } from '@src/hooks/auth/useLogout';
 
 
 export default function Logout() {
-    deleteCookie('jwt');
-    deleteCookie('userInfo');
-    deleteCookie('username');
-    deleteCookie('email');
+	const { logout } = useLogout();
+	const router = useRouter();
 
-    const username = getCookie('username');
-    const router = useRouter()
+	useEffect(() => {
+		logout();
+		router.push('/login');
+	}, [])
 
-    useEffect(() => {
-        if (!(username)) {
-          router.push('/login')
-        }
-      }, [])
-
-  return (
-    <div>logout</div>
-  )
+	return (
+		<div>logout</div>
+	)
 }
